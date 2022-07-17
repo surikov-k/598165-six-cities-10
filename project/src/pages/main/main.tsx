@@ -1,10 +1,14 @@
-import Card from '../../components/card/card';
+import {Offer} from '../../types/offer';
+import CardsList from '../../components/cards-list/cards-list';
+import {useState} from 'react';
 
 type MainProps = {
-  cardsCount: number;
+  offers: Offer[];
 }
 
-function Main({cardsCount}: MainProps): JSX.Element {
+function Main({offers}: MainProps): JSX.Element {
+  const [activeOffer, setActiveOffer] = useState({} as Offer);
+  const handelMouseOver = (offer: Offer) => setActiveOffer(offer);
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -95,8 +99,12 @@ function Main({cardsCount}: MainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {Array.from({length: cardsCount})
-                  .map(() => <Card key={'key'}/>)}
+                <p style={{position: 'absolute', bottom: '0'}}>{activeOffer.title}</p>
+                <CardsList
+                  cardType="cities"
+                  offers={offers}
+                  onMouseOver={handelMouseOver}
+                />
               </div>
             </section>
             <div className="cities__right-section">
