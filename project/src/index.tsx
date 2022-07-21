@@ -12,5 +12,6 @@ root.render(
     <App
       offers={offers}
     />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
+

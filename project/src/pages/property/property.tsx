@@ -101,7 +101,7 @@ function Property({offers}: PropertyProps): JSX.Element | null {
                   className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`}
                   type="button"
                 >
-                  <svg className="property__bookmark-icon" width="31" height="33">
+                  <svg className="property__bookmark-icon place-card__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
                   <span className="visually-hidden">{`${isFavorite ? 'In' : 'To'} bookmarks`}</span>

@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {CardType} from '../../components/card/card';
 import {Offer} from '../../types/offer';
 import CardsList from '../../components/cards-list/cards-list';
+import Map from '../../components/map/map';
 
 type MainProps = {
   offers: Offer[];
@@ -102,7 +103,6 @@ function Main({offers}: MainProps) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <p style={{position: 'absolute', bottom: '0'}}>{activeOffer?.title}</p>
                 <CardsList
                   cardType={CardType.Cities}
                   offers={offers}
@@ -112,7 +112,11 @@ function Main({offers}: MainProps) {
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                city={offers[0].city}
+                offers={offers}
+                activeOffer={activeOffer}
+              />
             </div>
           </div>
         </div>
