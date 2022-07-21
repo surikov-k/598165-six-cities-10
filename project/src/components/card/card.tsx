@@ -1,13 +1,19 @@
 import {Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
 
-type CardProps = {
-  cardType: 'cities' | 'favorites'
-  offer: Offer,
-  onMouseOver?: (offer: Offer) => void,
+export enum CardType {
+  Cities= 'cities',
+  Favorites = 'favorites'
 }
 
-function Card({cardType, offer, onMouseOver}: CardProps): JSX.Element {
+type CardProps = {
+  cardType: CardType
+  offer: Offer,
+  onMouseEnter?: (offer: Offer) => void,
+  onMouseLeave?: () => void,
+}
+
+function Card({cardType, offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Element {
   const {
     id,
     isFavorite,
@@ -22,7 +28,8 @@ function Card({cardType, offer, onMouseOver}: CardProps): JSX.Element {
   return (
     <article
       className={`${cardType}__card place-card`}
-      onMouseOver={() => onMouseOver && onMouseOver(offer)}
+      onMouseEnter={() => onMouseEnter && onMouseEnter(offer)}
+      onMouseLeave={() => onMouseLeave && onMouseLeave()}
     >
       {
         isPremium &&

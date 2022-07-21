@@ -1,13 +1,14 @@
 import {Offer} from '../../types/offer';
-import Card from '../card/card';
+import Card, {CardType} from '../card/card';
 
 type OffersListProps = {
-  cardType: 'cities' | 'favorites',
+  cardType: CardType,
   offers: Offer[],
-  onMouseOver?: (offer: Offer) => void,
+  onMouseEnter?: (offer: Offer) => void,
+  onMouseLeave?: () => void,
 }
 
-function CardsList({cardType, offers, onMouseOver}: OffersListProps): JSX.Element {
+function CardsList({cardType, offers, onMouseEnter, onMouseLeave}: OffersListProps): JSX.Element {
 
   return (
     <>
@@ -16,7 +17,8 @@ function CardsList({cardType, offers, onMouseOver}: OffersListProps): JSX.Elemen
           key={offer.id}
           cardType={cardType}
           offer={offer}
-          onMouseOver={onMouseOver}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
         />
       ))}
     </>);

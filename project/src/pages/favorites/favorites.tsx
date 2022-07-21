@@ -1,5 +1,6 @@
 import {Offer} from '../../types/offer';
 import CardsList from '../../components/cards-list/cards-list';
+import {CardType} from '../../components/card/card';
 
 type FavoritesProps = {
   offers: Offer[]
@@ -51,7 +52,7 @@ function Favorites({offers}: FavoritesProps): JSX.Element {
                 </div>
                 <div className="favorites__places">
                   <CardsList
-                    cardType="favorites"
+                    cardType={CardType.Favorites}
                     offers={offers}
                   />
                 </div>
@@ -67,7 +68,7 @@ function Favorites({offers}: FavoritesProps): JSX.Element {
                 </div>
                 <div className="favorites__places">
                   <CardsList
-                    cardType="favorites"
+                    cardType={CardType.Favorites}
                     offers={offers}
                   />
                 </div>

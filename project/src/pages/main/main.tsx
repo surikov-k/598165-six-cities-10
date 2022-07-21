@@ -1,14 +1,17 @@
+import {useState} from 'react';
+import {CardType} from '../../components/card/card';
 import {Offer} from '../../types/offer';
 import CardsList from '../../components/cards-list/cards-list';
-import {useState} from 'react';
 
 type MainProps = {
   offers: Offer[];
 }
 
-function Main({offers}: MainProps): JSX.Element {
-  const [activeOffer, setActiveOffer] = useState({} as Offer);
-  const handelMouseOver = (offer: Offer) => setActiveOffer(offer);
+function Main({offers}: MainProps) {
+  const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
+  const handelMouseEnter = (offer: Offer) => setActiveOffer(offer);
+  const handelMouseLeave = () => setActiveOffer(null);
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -99,11 +102,12 @@ function Main({offers}: MainProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <p style={{position: 'absolute', bottom: '0'}}>{activeOffer.title}</p>
+                <p style={{position: 'absolute', bottom: '0'}}>{activeOffer?.title}</p>
                 <CardsList
-                  cardType="cities"
+                  cardType={CardType.Cities}
                   offers={offers}
-                  onMouseOver={handelMouseOver}
+                  onMouseEnter={handelMouseEnter}
+                  onMouseLeave={handelMouseLeave}
                 />
               </div>
             </section>
