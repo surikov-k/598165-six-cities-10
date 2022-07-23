@@ -11,6 +11,7 @@ type MapProps = {
   city: City;
   offers: Offer[];
   activeOffer: Offer | null;
+  mapClasses: string
 }
 
 const defaultCustomIcon = new Icon({
@@ -25,7 +26,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [13, 39]
 });
 
-function Map({city, offers, activeOffer}: MapProps): JSX.Element {
+function Map({city, offers, activeOffer, mapClasses}: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -39,7 +40,7 @@ function Map({city, offers, activeOffer}: MapProps): JSX.Element {
         });
 
         marker.setIcon(
-          activeOffer !== null && offer.id === activeOffer.id
+          activeOffer !== null && offer.id === activeOffer?.id
             ? currentCustomIcon
             : defaultCustomIcon
         );
@@ -52,8 +53,7 @@ function Map({city, offers, activeOffer}: MapProps): JSX.Element {
   return (
     <section
       ref={mapRef}
-      className="cities__map map"
-      style={{height: 800}}
+      className={mapClasses}
     >
     </section>
   );

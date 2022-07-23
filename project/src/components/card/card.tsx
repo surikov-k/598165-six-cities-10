@@ -3,7 +3,8 @@ import {Link} from 'react-router-dom';
 
 export enum CardType {
   Cities= 'cities',
-  Favorites = 'favorites'
+  Favorites = 'favorites',
+  NearBy = 'near-places'
 }
 
 type CardProps = {

@@ -1,4 +1,4 @@
-import {FormEvent, useState} from 'react';
+import {FormEvent, Fragment, useState} from 'react';
 
 function ReviewForm(): JSX.Element {
   const [review, setReview] = useState('');
@@ -31,7 +31,7 @@ function ReviewForm(): JSX.Element {
           labelTitles.map((title, i) => {
             const stars = labelTitles.length - i;
             return (
-              <>
+              <Fragment key={`${title}`}>
                 <input
                   className="form__rating-input visually-hidden"
                   name="rating"
@@ -50,7 +50,7 @@ function ReviewForm(): JSX.Element {
                     <use xlinkHref="#icon-star"></use>
                   </svg>
                 </label>
-              </>
+              </Fragment>
             );
           })
         }

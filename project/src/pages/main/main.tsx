@@ -8,6 +8,8 @@ type MainProps = {
   offers: Offer[];
 }
 
+const CITES_MAP_CLASSES = 'cities__map map';
+
 function Main({offers}: MainProps) {
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
   const handelMouseEnter = (offer: Offer) => setActiveOffer(offer);
@@ -116,6 +118,7 @@ function Main({offers}: MainProps) {
                 city={offers[0].city}
                 offers={offers}
                 activeOffer={activeOffer}
+                mapClasses={CITES_MAP_CLASSES}
               />
             </div>
           </div>
