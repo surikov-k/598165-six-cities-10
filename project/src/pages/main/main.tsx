@@ -3,17 +3,23 @@ import {CardType} from '../../components/card/card';
 import {Offer} from '../../types/offer';
 import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/map';
+import CitiesList from '../../components/locations-list/cities-list';
+import {useAppDispatch} from '../../hooks';
+import {changeCity} from '../../store/action';
 
 type MainProps = {
-  offers: Offer[];
+  currentOffers: Offer[];
+  currentCity: string;
 }
 
 const CITES_MAP_CLASSES = 'cities__map map';
 
-function Main({offers}: MainProps) {
+function Main({currentOffers, currentCity}: MainProps) {
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
   const handelMouseEnter = (offer: Offer) => setActiveOffer(offer);
   const handelMouseLeave = () => setActiveOffer(null);
+
+  const dispatch = useAppDispatch();
 
   return (
     <div className="page page--gray page--main">
@@ -49,46 +55,18 @@ function Main({offers}: MainProps) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="src/pages/main/main#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="src/pages/main/main#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="src/pages/main/main#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="src/pages/main/main#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="src/pages/main/main#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <CitiesList
+            currentCity={currentCity}
+            changeCity={(city: string) => {
+              dispatch(changeCity(city));
+            }}
+          />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{`${currentOffers.length} places to stay in ${currentCity}`}</b>
               <form className="places__sorting" action="src/pages/main/main#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -107,7 +85,7 @@ function Main({offers}: MainProps) {
               <div className="cities__places-list places__list tabs__content">
                 <CardsList
                   cardType={CardType.Cities}
-                  offers={offers}
+                  offers={currentOffers}
                   onMouseEnter={handelMouseEnter}
                   onMouseLeave={handelMouseLeave}
                 />
@@ -115,8 +93,8 @@ function Main({offers}: MainProps) {
             </section>
             <div className="cities__right-section">
               <Map
-                city={offers[0].city}
-                offers={offers}
+                city={currentOffers[0].city}
+                offers={currentOffers}
                 activeOffer={activeOffer}
                 mapClasses={CITES_MAP_CLASSES}
               />

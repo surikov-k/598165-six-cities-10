@@ -7,21 +7,37 @@ import Main from '../../pages/main/main';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import Property from '../../pages/property/property';
-import {Offer} from '../../types/offer';
 import {Review} from '../../types/review';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+
+import {loadOffers} from '../../store/action';
+import {Offer} from '../../types/offer';
 
 type AppProps = {
   offers: Offer[];
   reviews: Review[]
 }
 
-function App({offers, reviews}: AppProps): JSX.Element {
+function App({offers: mocks, reviews}: AppProps): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
+  dispatch(loadOffers(mocks));
+
+  const offers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector((state) => state.currentCity);
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={<Main offers={offers}/>}
+          element={
+            <Main
+              currentOffers={offers.filter((offer) => offer.city.name === currentCity)}
+              currentCity={currentCity}
+            />
+          }
         />
         <Route
           path={AppRoute.Login}
@@ -31,13 +47,21 @@ function App({offers, reviews}: AppProps): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <Favorites offers={offers}/>
+              <Favorites offers={offers.slice(0, 10)}/>
             </PrivateRoute>
           }
         />
         <Route
           path={AppRoute.Offer}
-          element={<Property offers={offers} reviews={reviews} nearby={offers}/>}
+          element={
+            <Property
+              offers={offers.filter((offer) => offer.city.name === currentCity)}
+              reviews={reviews}
+              nearby={offers
+                .filter((offer) => offer.city.name === currentCity)
+                .slice(0, 4)}
+            />
+          }
         />
         <Route
           path={AppRoute.NotFound}
