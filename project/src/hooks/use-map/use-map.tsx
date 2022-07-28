@@ -17,6 +17,7 @@ function useMap (
           lng: city.location.longitude,
         },
         zoom: city.location.zoom,
+        scrollWheelZoom: false
       });
 
       const layer = new TileLayer(
@@ -31,10 +32,13 @@ function useMap (
       setMap(instance);
       isRenderedRef.current = true;
     } else {
-      map?.panTo(new LatLng(city.location.latitude, city.location.longitude));
+      map?.panTo(new LatLng(city.location.latitude, city.location.longitude), {
+        animate: true,
+        duration: 0.4
+      });
     }
 
-  }, [mapRef, city]);
+  }, [mapRef, city, map]);
 
   return map;
 }

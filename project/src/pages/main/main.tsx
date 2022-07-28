@@ -6,16 +6,19 @@ import Map from '../../components/map/map';
 import CitiesList from '../../components/locations-list/cities-list';
 import {useAppDispatch} from '../../hooks';
 import {changeCity} from '../../store/action';
+import SortingDropdown, {Sorting, sortOffers} from '../../components/sorting/sortingDropdown';
 
 type MainProps = {
   currentOffers: Offer[];
   currentCity: string;
 }
 
+
 const CITES_MAP_CLASSES = 'cities__map map';
 
 function Main({currentOffers, currentCity}: MainProps) {
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
+  const [sorting, setSorting] = useState<Sorting>(Sorting.Popular);
   const handelMouseEnter = (offer: Offer) => setActiveOffer(offer);
   const handelMouseLeave = () => setActiveOffer(null);
 
@@ -67,25 +70,14 @@ function Main({currentOffers, currentCity}: MainProps) {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{`${currentOffers.length} places to stay in ${currentCity}`}</b>
-              <form className="places__sorting" action="src/pages/main/main#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height={4}>
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
+              <SortingDropdown
+                currentCriterion={sorting}
+                changeSorting={(criteria) => setSorting(criteria)}
+              />
               <div className="cities__places-list places__list tabs__content">
                 <CardsList
                   cardType={CardType.Cities}
-                  offers={currentOffers}
+                  offers={sortOffers(currentOffers, sorting)}
                   onMouseEnter={handelMouseEnter}
                   onMouseLeave={handelMouseLeave}
                 />
