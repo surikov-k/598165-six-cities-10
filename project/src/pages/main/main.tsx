@@ -4,23 +4,22 @@ import {Offer} from '../../types/offer';
 import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/locations-list/cities-list';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeCity} from '../../store/action';
 import SortingDropdown, {Sorting, sortOffers} from '../../components/sorting/sortingDropdown';
 
-type MainProps = {
-  currentOffers: Offer[];
-  currentCity: string;
-}
-
-
 const CITES_MAP_CLASSES = 'cities__map map';
 
-function Main({currentOffers, currentCity}: MainProps) {
+function Main() {
+  const offers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector((state) => state.currentCity);
+  const currentOffers = offers.filter((offer) => offer.city.name === currentCity);
+
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
   const [sorting, setSorting] = useState<Sorting>(Sorting.Popular);
   const handelMouseEnter = (offer: Offer) => setActiveOffer(offer);
   const handelMouseLeave = () => setActiveOffer(null);
+
 
   const dispatch = useAppDispatch();
 
@@ -84,12 +83,16 @@ function Main({currentOffers, currentCity}: MainProps) {
               </div>
             </section>
             <div className="cities__right-section">
-              <Map
-                city={currentOffers[0].city}
-                offers={currentOffers}
-                activeOffer={activeOffer}
-                mapClasses={CITES_MAP_CLASSES}
-              />
+              {
+                currentOffers[0]?.city &&
+                  <Map
+                    city={currentOffers[0].city}
+                    offers={currentOffers}
+                    activeOffer={activeOffer}
+                    mapClasses={CITES_MAP_CLASSES}
+                  />
+              }
+
             </div>
           </div>
         </div>

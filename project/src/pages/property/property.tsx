@@ -1,4 +1,3 @@
-import {Offer} from '../../types/offer';
 import {useParams} from 'react-router-dom';
 import ReviewForm from '../../components/revew-form/review-form';
 import {Review} from '../../types/review';
@@ -6,20 +5,23 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import CardsList from '../../components/cards-list/cards-list';
 import {CardType} from '../../components/card/card';
+import {useAppSelector} from '../../hooks';
 
 type PropertyProps = {
-  offers: Offer[];
   reviews: Review[];
-  nearby: Offer[];
 }
 
 const PROPERTY_MAP_CLASSES = 'property__map map';
 
-function Property({offers, reviews, nearby}: PropertyProps): JSX.Element | null {
+function Property({reviews}: PropertyProps): JSX.Element | null {
   const {id} = useParams();
+  const offers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector((state) => state.currentCity);
+
   if (!id) {
     return null;
   }
+
   const currentOffer = offers
     .find((offer) => offer.id === parseInt(id, 10));
 
@@ -27,8 +29,13 @@ function Property({offers, reviews, nearby}: PropertyProps): JSX.Element | null 
   if (!currentOffer) {
     return null;
   }
-  const nearByOffers = nearby
-    .filter((offer) => offer.id !== currentOffer.id);
+
+  const nearByOffers = offers
+    .filter((offer) => offer.city.name === currentCity)
+    .filter((offer) => offer.id !== currentOffer.id)
+    .slice(0, 3);
+
+  nearByOffers.push(currentOffer);
 
   const {
     bedrooms,
@@ -203,8 +210,8 @@ function Property({offers, reviews, nearby}: PropertyProps): JSX.Element | null 
             </div>
           </div>
           <Map
-            city={offers[0].city}
-            offers={offers}
+            city={nearByOffers[0].city}
+            offers={nearByOffers}
             activeOffer={currentOffer}
             mapClasses={PROPERTY_MAP_CLASSES}
           />

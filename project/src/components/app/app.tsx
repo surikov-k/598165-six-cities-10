@@ -8,10 +8,11 @@ import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import Property from '../../pages/property/property';
 import {Review} from '../../types/review';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch} from '../../hooks';
 
 import {loadOffers} from '../../store/action';
 import {Offer} from '../../types/offer';
+import {useEffect} from 'react';
 
 type AppProps = {
   offers: Offer[];
@@ -22,22 +23,17 @@ function App({offers: mocks, reviews}: AppProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  dispatch(loadOffers(mocks));
+  useEffect(() => {
+    dispatch(loadOffers(mocks));
 
-  const offers = useAppSelector((state) => state.offers);
-  const currentCity = useAppSelector((state) => state.currentCity);
+  }, [dispatch, mocks]);
 
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={
-            <Main
-              currentOffers={offers.filter((offer) => offer.city.name === currentCity)}
-              currentCity={currentCity}
-            />
-          }
+          element={<Main/>}
         />
         <Route
           path={AppRoute.Login}
@@ -47,7 +43,7 @@ function App({offers: mocks, reviews}: AppProps): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <Favorites offers={offers.slice(0, 10)}/>
+              <Favorites />
             </PrivateRoute>
           }
         />
@@ -55,11 +51,7 @@ function App({offers: mocks, reviews}: AppProps): JSX.Element {
           path={AppRoute.Offer}
           element={
             <Property
-              offers={offers.filter((offer) => offer.city.name === currentCity)}
               reviews={reviews}
-              nearby={offers
-                .filter((offer) => offer.city.name === currentCity)
-                .slice(0, 4)}
             />
           }
         />

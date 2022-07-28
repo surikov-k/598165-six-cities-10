@@ -1,11 +1,10 @@
-import {Offer} from '../../types/offer';
 import CardsList from '../../components/cards-list/cards-list';
 import {CardType} from '../../components/card/card';
+import {useAppSelector} from '../../hooks';
 
-type FavoritesProps = {
-  offers: Offer[]
-}
-function Favorites({offers}: FavoritesProps): JSX.Element {
+function Favorites(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers)
+    .slice(0, 10);
   return (
     <div className="page">
       <header className="header">

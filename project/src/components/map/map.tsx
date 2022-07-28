@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import {useLayoutEffect, useRef} from 'react';
 import {Icon, Marker} from 'leaflet';
 
 import {City, Offer} from '../../types/offer';
@@ -31,7 +31,7 @@ function Map({city, offers, activeOffer, mapClasses}: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (map) {
       offers.forEach((offer) => {
         const marker = new Marker({
@@ -47,7 +47,7 @@ function Map({city, offers, activeOffer, mapClasses}: MapProps): JSX.Element {
         marker.addTo(map);
       });
     }
-  }, [map, activeOffer, offers]);
+  }, [map, activeOffer, offers, city]);
 
 
   return (
