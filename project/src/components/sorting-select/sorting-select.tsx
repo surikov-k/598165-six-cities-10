@@ -8,12 +8,12 @@ export enum Sorting {
   TopRated = 'Top rated first'
 }
 
-type SortingDropdownProps = {
+type SortingSelectProps = {
   currentCriterion: Sorting;
   changeSorting: (criterion: Sorting) => void;
 }
 
-const SortingDropdown = ({currentCriterion, changeSorting}: SortingDropdownProps) => {
+const SortingSelect = ({currentCriterion, changeSorting}: SortingSelectProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
   return (
@@ -65,4 +65,4 @@ export const sortOffers = (offers: Offer[], criterion: Sorting) => ({
     .sort((offerA, offerB) => offerB.rating - offerA.rating)
 }[criterion]);
 
-export default SortingDropdown;
+export default SortingSelect;

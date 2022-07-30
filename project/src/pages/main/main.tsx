@@ -5,18 +5,21 @@ import CardsList from '../../components/cards-list/cards-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/locations-list/cities-list';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeCity} from '../../store/action';
-import SortingDropdown, {Sorting, sortOffers} from '../../components/sorting/sortingDropdown';
+import {changeCity, changeSorting} from '../../store/action';
+import SortingSelect, {sortOffers} from '../../components/sorting-select/sorting-select';
 
 const CITES_MAP_CLASSES = 'cities__map map';
 
 function Main() {
   const offers = useAppSelector((state) => state.offers);
   const currentCity = useAppSelector((state) => state.currentCity);
-  const currentOffers = offers.filter((offer) => offer.city.name === currentCity);
+  const sorting = useAppSelector((state) => state.sorting);
+
+  const currentOffers = offers
+    .filter((offer) => offer.city.name === currentCity);
 
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
-  const [sorting, setSorting] = useState<Sorting>(Sorting.Popular);
+
   const handelMouseEnter = (offer: Offer) => setActiveOffer(offer);
   const handelMouseLeave = () => setActiveOffer(null);
 
@@ -69,9 +72,9 @@ function Main() {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{`${currentOffers.length} places to stay in ${currentCity}`}</b>
-              <SortingDropdown
+              <SortingSelect
                 currentCriterion={sorting}
-                changeSorting={(criteria) => setSorting(criteria)}
+                changeSorting={(criteria) => dispatch(changeSorting(criteria))}
               />
               <div className="cities__places-list places__list tabs__content">
                 <CardsList
@@ -92,7 +95,6 @@ function Main() {
                     mapClasses={CITES_MAP_CLASSES}
                   />
               }
-
             </div>
           </div>
         </div>
