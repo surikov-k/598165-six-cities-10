@@ -8,25 +8,21 @@ import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import Property from '../../pages/property/property';
 import {Review} from '../../types/review';
-import {useAppDispatch} from '../../hooks';
-
-import {loadOffers} from '../../store/action';
-import {Offer} from '../../types/offer';
-import {useEffect} from 'react';
+import {useAppSelector} from '../../hooks';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 type AppProps = {
-  offers: Offer[];
   reviews: Review[]
 }
 
-function App({offers: mocks, reviews}: AppProps): JSX.Element {
+function App({reviews}: AppProps): JSX.Element {
+  const isDataLoading = useAppSelector((state) => state.isDataLoading);
 
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(loadOffers(mocks));
-
-  }, [dispatch, mocks]);
+  if (isDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <BrowserRouter>
@@ -43,7 +39,7 @@ function App({offers: mocks, reviews}: AppProps): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <Favorites />
+              <Favorites/>
             </PrivateRoute>
           }
         />

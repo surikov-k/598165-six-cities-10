@@ -1,15 +1,15 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, changeSorting, loadOffers} from './action';
-
-import {Offer} from '../types/offer';
-import {DEFAULT_CITY} from '../const';
+import {changeCity, changeSorting, loadOffers, setLoadingStatus} from './action';
+import {AuthorizationStatus, DEFAULT_CITY} from '../const';
 import {Sorting} from '../components/sorting-select/sorting-select';
+import {Offer} from '../types/offer';
 
-
-const initialState : {currentCity:string, sorting: Sorting, offers: Offer[] } = {
+const initialState = {
   currentCity: DEFAULT_CITY,
   sorting: Sorting.Popular,
-  offers: []
+  offers: [] as Offer[],
+  authorizationStatus: AuthorizationStatus.Unknown,
+  isDataLoading: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -22,6 +22,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeSorting, (state, action) => {
       state.sorting = action.payload;
+    })
+    .addCase(setLoadingStatus, (state, action) => {
+      state.isDataLoading = action.payload;
     });
 });
 
