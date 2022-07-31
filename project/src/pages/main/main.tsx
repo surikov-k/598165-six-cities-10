@@ -7,6 +7,7 @@ import CitiesList from '../../components/locations-list/cities-list';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeCity, changeSorting} from '../../store/action';
 import SortingSelect, {sortOffers} from '../../components/sorting-select/sorting-select';
+import EmptyOffers from '../../components/empty-offers/empty-offers';
 
 const CITES_MAP_CLASSES = 'cities__map map';
 
@@ -57,7 +58,7 @@ function Main() {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${!offers.length ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <CitiesList
@@ -68,35 +69,42 @@ function Main() {
           />
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{`${currentOffers.length} places to stay in ${currentCity}`}</b>
-              <SortingSelect
-                currentCriterion={sorting}
-                changeSorting={(criteria) => dispatch(changeSorting(criteria))}
-              />
-              <div className="cities__places-list places__list tabs__content">
-                <CardsList
-                  cardType={CardType.Cities}
-                  offers={sortOffers(currentOffers, sorting)}
-                  onMouseEnter={handelMouseEnter}
-                  onMouseLeave={handelMouseLeave}
-                />
-              </div>
-            </section>
-            <div className="cities__right-section">
-              {
-                currentOffers[0]?.city &&
+          {
+            offers.length > 0
+              ?
+              <div className="cities__places-container container">
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{`${currentOffers.length} places to stay in ${currentCity}`}</b>
+                  <SortingSelect
+                    currentCriterion={sorting}
+                    changeSorting={(criteria) => dispatch(changeSorting(criteria))}
+                  />
+                  <div className="cities__places-list places__list tabs__content">
+                    <CardsList
+                      cardType={CardType.Cities}
+                      offers={sortOffers(currentOffers, sorting)}
+                      onMouseEnter={handelMouseEnter}
+                      onMouseLeave={handelMouseLeave}
+                    />
+                  </div>
+                </section>
+
+                <div className="cities__right-section">
+                  {
+                    currentOffers.length &&
                   <Map
                     city={currentOffers[0].city}
                     offers={currentOffers}
                     activeOffer={activeOffer}
                     mapClasses={CITES_MAP_CLASSES}
                   />
-              }
-            </div>
-          </div>
+                  }
+                </div>
+              </div>
+              :
+              <EmptyOffers/>
+          }
         </div>
       </main>
     </div>
