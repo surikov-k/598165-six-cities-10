@@ -5,9 +5,10 @@ import {Provider} from 'react-redux';
 import App from './components/app/app';
 import {reviews} from './mocks/reviews';
 import {store} from './store';
-import {fetchOffersAction} from './store/api-actions';
+import {checkAuthAction, fetchOffersAction} from './store/api-actions';
 
 store.dispatch(fetchOffersAction());
+store.dispatch(checkAuthAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
