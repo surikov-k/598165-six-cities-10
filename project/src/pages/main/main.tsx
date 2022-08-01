@@ -16,11 +16,9 @@ function Main() {
 
   const dispatch = useAppDispatch();
 
-  const {
-    offers,
-    currentCity,
-    sorting
-  } = useAppSelector((state) => state);
+  const offers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector((state) => state.currentCity);
+  const sorting = useAppSelector((state) => state.sorting);
 
   const currentOffers = offers
     .filter((offer) => offer.city.name === currentCity);

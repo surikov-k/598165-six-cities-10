@@ -8,7 +8,7 @@ import Logo from '../../components/logo/logo';
 import {changeCity} from '../../store/action';
 
 function Login(): JSX.Element {
-  const {authorizationStatus} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 

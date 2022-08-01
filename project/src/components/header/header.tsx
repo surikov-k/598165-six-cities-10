@@ -5,10 +5,9 @@ import {Link} from 'react-router-dom';
 import {logoutAction} from '../../store/api-actions';
 
 const Header = () => {
-  const {
-    authorizationStatus,
-    userEmail,
-  } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const userEmail = useAppSelector((state) => state.userEmail);
+
   const dispatch = useAppDispatch();
 
   return (

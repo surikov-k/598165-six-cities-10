@@ -30,8 +30,11 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
 }>('user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoute.Login);
+      const {data: {email: userEmail}} = await api.get(APIRoute.Login);
+
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(saveUserEmail(userEmail));
+
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
