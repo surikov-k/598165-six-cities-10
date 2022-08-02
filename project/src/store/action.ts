@@ -14,3 +14,5 @@ export const changeSorting = createAction<Sorting>('sorting/change');
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
 export const saveUserEmail = createAction<string>('user/saveEmail');
+
+export const setError = createAction<string | null>('data/setError');

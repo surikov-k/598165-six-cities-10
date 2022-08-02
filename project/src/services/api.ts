@@ -1,10 +1,21 @@
-import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
+import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import {getToken} from './token';
+import {StatusCodes} from 'http-status-codes';
+import {handleError} from './handle-error/handle-error';
+
+const StatusCodeMapping: Record<number, boolean> = {
+  [StatusCodes.BAD_REQUEST]: true,
+  [StatusCodes.UNAUTHORIZED]: true,
+  [StatusCodes.NOT_FOUND]: true,
+};
+
+const shouldDisplayError = (response: AxiosResponse) => StatusCodeMapping[response.status];
+
 
 const BACKEND_URL = 'https://10.react.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
 
-export const createAPI = () :AxiosInstance => {
+export const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
@@ -19,6 +30,16 @@ export const createAPI = () :AxiosInstance => {
       }
       return config;
     });
+
+  api.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => {
+      if (error.response && shouldDisplayError(error.response)) {
+        handleError(error.response.data.error);
+      }
+      throw error;
+    }
+  );
 
   return api;
 };

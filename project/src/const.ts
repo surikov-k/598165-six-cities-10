@@ -26,6 +26,8 @@ export const CITIES = [
   'Dusseldorf'
 ];
 
+export const CLEAR_ERROR_DELAY = 5000;
+
 export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
