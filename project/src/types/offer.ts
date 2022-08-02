@@ -16,7 +16,8 @@ export type Offer = {
   title: string;
   type: OfferType;
 }
-type Location = {
+
+export type Location = {
   latitude: number;
   longitude: number;
   zoom: number;

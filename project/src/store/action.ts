@@ -1,7 +1,7 @@
 import {createAction} from '@reduxjs/toolkit';
 import {Offer} from '../types/offer';
 import {Sorting} from '../components/sorting-select/sorting-select';
-import {AuthorizationStatus} from '../const';
+import {AppRoute, AuthorizationStatus} from '../const';
 
 export const changeCity = createAction<string>('city/change');
 
@@ -16,3 +16,5 @@ export const requireAuthorization = createAction<AuthorizationStatus>('user/requ
 export const saveUserEmail = createAction<string>('user/saveEmail');
 
 export const setError = createAction<string | null>('data/setError');
+
+export const redirectToRoute = createAction<AppRoute>('app/redirectToRoute');

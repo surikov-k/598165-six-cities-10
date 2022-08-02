@@ -1,42 +1,49 @@
 import {useParams} from 'react-router-dom';
-import ReviewForm from '../../components/revew-form/review-form';
-import {Review} from '../../types/review';
-import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import CardsList from '../../components/cards-list/cards-list';
 import {CardType} from '../../components/card/card';
-import {useAppSelector} from '../../hooks';
 import Header from '../../components/header/header';
-
-type PropertyProps = {
-  reviews: Review[];
-}
+import {useEffect, useState} from 'react';
+import {Offer} from '../../types/offer';
+import {useAppDispatch} from '../../hooks';
+import {redirectToRoute} from '../../store/action';
+import {APIRoute, AppRoute} from '../../const';
+import {api} from '../../store';
+import Reviews from '../../components/reviews/reviews';
 
 const PROPERTY_MAP_CLASSES = 'property__map map';
 
-function Property({reviews}: PropertyProps): JSX.Element | null {
+function Property(): JSX.Element | null {
   const {id} = useParams();
-  const offers = useAppSelector((state) => state.offers);
-  const currentCity = useAppSelector((state) => state.currentCity);
+  const dispatch = useAppDispatch();
 
-  if (!id) {
+
+  const [offer, setOffer] = useState<Offer | null>(null);
+  const [nearbyOffers, setNearbyOffers] = useState<Offer[] | []>([]);
+
+
+  useEffect(() => {
+
+    const getOfferData = async () => {
+
+      const {data: currentOffer} = await api
+        .get<Offer>(`${APIRoute.Offers}/${id}`);
+      setOffer(currentOffer);
+
+      const {data: currentOfferNearby} = await api
+        .get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
+      setNearbyOffers(currentOfferNearby);
+    };
+
+    getOfferData().catch(() => {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    });
+
+  }, [id, dispatch]);
+
+  if (!offer) {
     return null;
   }
-
-  const currentOffer = offers
-    .find((offer) => offer.id === parseInt(id, 10));
-
-
-  if (!currentOffer) {
-    return null;
-  }
-
-  const nearByOffers = offers
-    .filter((offer) => offer.city.name === currentCity)
-    .filter((offer) => offer.id !== currentOffer.id)
-    .slice(0, 3);
-
-  nearByOffers.push(currentOffer);
 
   const {
     bedrooms,
@@ -51,11 +58,11 @@ function Property({reviews}: PropertyProps): JSX.Element | null {
     rating,
     title,
     type,
-  } = currentOffer;
+  } = offer;
 
   return (
     <div className="page">
-      <Header />
+      <Header/>
 
       <main className="page__main page__main--property">
         <section className="property">
@@ -165,39 +172,24 @@ function Property({reviews}: PropertyProps): JSX.Element | null {
                   </p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                {
-                  reviews.length ?
-                    <>
-                      <h2 className="reviews__title">Reviews &middot;
-                        <span
-                          className="reviews__amount"
-                        >
-                          {reviews.length}
-                        </span>
-                      </h2>
-                      <ReviewsList reviews={reviews}/>
-                    </> : ''
-                }
-                <ReviewForm/>
-              </section>
+              <Reviews offerId={offer.id}/>
             </div>
           </div>
           <Map
-            city={nearByOffers[0].city}
-            offers={nearByOffers}
-            activeOffer={currentOffer}
+            center={{...offer.location, zoom: offer.city.location.zoom}}
+            offers={[...nearbyOffers, offer]}
+            activeOffer={offer}
             mapClasses={PROPERTY_MAP_CLASSES}
           />
         </section>
         <div className="container">
           <section className="near-places places">
             {
-              nearByOffers.length ?
+              nearbyOffers.length ?
                 <>
                   <h2 className="near-places__title">Other places in the neighbourhood</h2>
                   <div className="near-places__list places__list">
-                    <CardsList cardType={CardType.NearBy} offers={nearByOffers}/>
+                    <CardsList cardType={CardType.NearBy} offers={nearbyOffers}/>
                   </div>
                 </> : ''
             }

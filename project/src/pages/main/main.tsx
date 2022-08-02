@@ -68,7 +68,7 @@ function Main() {
                   {
                     currentOffers.length &&
                       <Map
-                        city={currentOffers[0].city}
+                        center={currentOffers[0].city.location}
                         offers={currentOffers}
                         activeOffer={activeOffer}
                         mapClasses={CITES_MAP_CLASSES}

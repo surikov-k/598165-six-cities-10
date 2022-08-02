@@ -17,6 +17,14 @@ const ReviewItem = ({review}: ReviewProps) => {
     name,
   } = user;
 
+  const formatDate = (d: Date) => {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    return `${months[d.getMonth()]} ${d.getFullYear()}`;
+  };
+
   const reviewDate = new Date(date);
   return (
     <li className="reviews__item">
@@ -46,9 +54,9 @@ const ReviewItem = ({review}: ReviewProps) => {
         </p>
         <time
           className="reviews__time"
-          dateTime={reviewDate.toDateString()}
+          dateTime={reviewDate.toISOString()}
         >
-          {reviewDate.toDateString()}
+          {formatDate(reviewDate)}
         </time>
       </div>
     </li>

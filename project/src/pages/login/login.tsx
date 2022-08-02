@@ -22,7 +22,7 @@ function Login(): JSX.Element {
       navigate(AppRoute.Root);
     }
 
-  }, [authorizationStatus]);
+  }, [authorizationStatus, navigate]);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

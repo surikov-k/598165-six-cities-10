@@ -2,7 +2,13 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AxiosInstance} from 'axios';
 
 import {AppDispatch, State} from '../types/state';
-import {loadOffers, requireAuthorization, saveUserEmail, setError, setLoadingStatus} from './action';
+import {
+  loadOffers,
+  requireAuthorization,
+  saveUserEmail,
+  setError,
+  setLoadingStatus
+} from './action';
 import {Offer} from '../types/offer';
 import {APIRoute, AuthorizationStatus, CLEAR_ERROR_DELAY} from '../const';
 import {dropToken, saveToken} from '../services/token';
@@ -74,7 +80,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     dispatch(saveUserEmail(''));
-
   },
 );
 

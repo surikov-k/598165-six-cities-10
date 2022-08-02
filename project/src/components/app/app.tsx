@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 
 import {AppRoute} from '../../const';
 import Favorites from '../../pages/favorites/favorites';
@@ -7,15 +7,12 @@ import Main from '../../pages/main/main';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import Property from '../../pages/property/property';
-import {Review} from '../../types/review';
 import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import HistoryRouter from '../history-router/history-router';
+import browserHistory from '../../browser-history';
 
-type AppProps = {
-  reviews: Review[]
-}
-
-function App({reviews}: AppProps): JSX.Element {
+function App(): JSX.Element {
   const isDataLoading = useAppSelector((state) => state.isDataLoading);
 
   if (isDataLoading) {
@@ -25,7 +22,7 @@ function App({reviews}: AppProps): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Root}
@@ -46,9 +43,7 @@ function App({reviews}: AppProps): JSX.Element {
         <Route
           path={AppRoute.Offer}
           element={
-            <Property
-              reviews={reviews}
-            />
+            <Property />
           }
         />
         <Route
@@ -56,7 +51,7 @@ function App({reviews}: AppProps): JSX.Element {
           element={<NotFound/>}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
