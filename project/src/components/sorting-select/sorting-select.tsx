@@ -1,7 +1,7 @@
-import {useState} from 'react';
+import {memo, useState} from 'react';
 import {Offer} from '../../types/offer';
 
-export enum Sorting {
+export enum SortingType {
   Popular = 'Popular',
   PriceToHigh = 'Price: low to high',
   PriceToLow = 'Price: high to low',
@@ -9,11 +9,11 @@ export enum Sorting {
 }
 
 type SortingSelectProps = {
-  currentCriterion: Sorting;
-  changeSorting: (criterion: Sorting) => void;
+  currentType: SortingType;
+  changeSorting: (type: SortingType) => void;
 }
 
-const SortingSelect = ({currentCriterion, changeSorting}: SortingSelectProps) => {
+const SortingSelect = ({currentType, changeSorting}: SortingSelectProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
   return (
@@ -24,7 +24,7 @@ const SortingSelect = ({currentCriterion, changeSorting}: SortingSelectProps) =>
     >
       <span className="places__sorting-caption">Sort by&nbsp;</span>
       <span className="places__sorting-type" tabIndex={0}>
-        {currentCriterion}
+        {currentType}
         <svg className="places__sorting-arrow" width="7" height={4}>
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
@@ -36,18 +36,18 @@ const SortingSelect = ({currentCriterion, changeSorting}: SortingSelectProps) =>
         }`}
       >
         {
-          Object.values(Sorting)
-            .map((criterion) => (
+          Object.values(SortingType)
+            .map((type) => (
               <li
-                key={criterion}
-                className={`places__option ${criterion === currentCriterion ? 'places__option--active' : 0}`}
+                key={type}
+                className={`places__option ${type === currentType ? 'places__option--active' : 0}`}
                 tabIndex={0}
                 onClick={() => {
-                  changeSorting(criterion);
+                  changeSorting(type);
                   setIsOpened(false);
                 }}
               >
-                {criterion}
+                {type}
               </li>
             ))
         }
@@ -55,14 +55,14 @@ const SortingSelect = ({currentCriterion, changeSorting}: SortingSelectProps) =>
     </form>);
 };
 
-export const sortOffers = (offers: Offer[], criterion: Sorting) => ({
-  [Sorting.Popular]: offers,
-  [Sorting.PriceToHigh]: [...offers]
+export const sortOffers = (offers: Offer[], type: SortingType) => ({
+  [SortingType.Popular]: offers,
+  [SortingType.PriceToHigh]: [...offers]
     .sort((offerA, offerB) => offerA.price - offerB.price),
-  [Sorting.PriceToLow]: [...offers]
+  [SortingType.PriceToLow]: [...offers]
     .sort((offerA, offerB) => offerB.price - offerA.price),
-  [Sorting.TopRated]: [...offers]
+  [SortingType.TopRated]: [...offers]
     .sort((offerA, offerB) => offerB.rating - offerA.rating)
-}[criterion]);
+}[type]);
 
-export default SortingSelect;
+export default memo(SortingSelect);

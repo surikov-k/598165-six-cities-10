@@ -9,13 +9,13 @@ import {
   setLoadingStatus
 } from './action';
 import {AuthorizationStatus, DEFAULT_CITY} from '../const';
-import {Sorting} from '../components/sorting-select/sorting-select';
+import {SortingType} from '../components/sorting-select/sorting-select';
 import {Offer} from '../types/offer';
 import {Review} from '../types/review';
 
 const initialState = {
   currentCity: DEFAULT_CITY,
-  sorting: Sorting.Popular,
+  sortingType: SortingType.Popular,
   offer:  null as Offer | null,
   offers: [] as Offer[],
   nearbyOffers: [] as Offer[],
@@ -44,7 +44,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.currentCity = action.payload;
     })
     .addCase(changeSorting, (state, action) => {
-      state.sorting = action.payload;
+      state.sortingType = action.payload;
     })
     .addCase(setLoadingStatus, (state, action) => {
       state.isDataLoading = action.payload;

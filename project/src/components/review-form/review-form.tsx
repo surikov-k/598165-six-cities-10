@@ -43,7 +43,7 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
     setIsSubmitButtonDisabled(!isFormValid());
   };
 
-  const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     setIsSubmitButtonDisabled(true);

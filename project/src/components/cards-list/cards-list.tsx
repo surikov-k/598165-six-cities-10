@@ -1,5 +1,6 @@
 import {Offer} from '../../types/offer';
 import Card, {CardType} from '../card/card';
+import {memo} from 'react';
 
 type OffersListProps = {
   cardType: CardType,
@@ -24,4 +25,4 @@ function CardsList({cardType, offers, onMouseEnter, onMouseLeave}: OffersListPro
     </>);
 }
 
-export default CardsList;
+export default memo(CardsList);

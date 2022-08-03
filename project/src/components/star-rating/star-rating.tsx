@@ -1,4 +1,4 @@
-import {FormEvent, Fragment} from 'react';
+import {FormEvent, Fragment, memo} from 'react';
 
 type StarRatingProps = {
   currentRating: number
@@ -48,4 +48,4 @@ const StarRating = ({currentRating, onChange, disabled}: StarRatingProps): JSX.E
   );
 };
 
-export default StarRating;
+export default memo(StarRating);

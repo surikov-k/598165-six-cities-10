@@ -1,8 +1,9 @@
 import {Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
+import {memo} from 'react';
 
 export enum CardType {
-  Cities= 'cities',
+  Cities = 'cities',
   Favorites = 'favorites',
   NearBy = 'near-places'
 }
@@ -81,4 +82,4 @@ function Card({cardType, offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Ele
   );
 }
 
-export default Card;
+export default memo(Card);
