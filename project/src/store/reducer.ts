@@ -1,8 +1,8 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {
   changeCity,
-  changeSorting,
-  loadOffers,
+  changeSorting, loadOffer,
+  loadOffers, loadOffersNearby, loadReviews,
   requireAuthorization,
   saveUserEmail,
   setError,
@@ -11,11 +11,15 @@ import {
 import {AuthorizationStatus, DEFAULT_CITY} from '../const';
 import {Sorting} from '../components/sorting-select/sorting-select';
 import {Offer} from '../types/offer';
+import {Review} from '../types/review';
 
 const initialState = {
   currentCity: DEFAULT_CITY,
   sorting: Sorting.Popular,
+  offer:  null as Offer | null,
   offers: [] as Offer[],
+  nearbyOffers: [] as Offer[],
+  reviews: [] as Review[],
   authorizationStatus: AuthorizationStatus.Unknown,
   userEmail: '',
   isDataLoading: false,
@@ -26,6 +30,15 @@ const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
+    })
+    .addCase(loadOffer, (state, action) => {
+      state.offer = action.payload;
+    })
+    .addCase(loadOffersNearby, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
     })
     .addCase(changeCity, (state, action) => {
       state.currentCity = action.payload;

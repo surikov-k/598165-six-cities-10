@@ -1,23 +1,23 @@
 import {FormEvent, useState} from 'react';
 import StarRating from '../star-rating/star-rating';
-import {APIRoute} from '../../const';
 import {Offer} from '../../types/offer';
-import {api} from '../../store';
-import {Review} from '../../types/review';
+import {postReviewAction} from '../../store/api-actions';
+import {useAppDispatch} from '../../hooks';
 
 const MIN_REVIEW_LENGTH = 20;
 const MAX_REVIEW_LENGTH = 300;
 
 type ReviewFormProps = {
-  offerId: Offer['id'],
-  onReviewSubmit: (reviews: Review[]) => void,
+  offerId: Offer['id']
 }
 
-function ReviewForm({offerId, onReviewSubmit}: ReviewFormProps): JSX.Element {
+function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
   const [isInputDisabled, setIsInputDisabled] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const isFormValid = () => {
     if (review.length < MIN_REVIEW_LENGTH) {
@@ -49,14 +49,15 @@ function ReviewForm({offerId, onReviewSubmit}: ReviewFormProps): JSX.Element {
     setIsSubmitButtonDisabled(true);
     setIsInputDisabled(true);
     try {
-      const {data: reviews} = await api.post(
-        `${APIRoute.Reviews}/${offerId}`,
-        {
+      dispatch(postReviewAction({
+        offerId,
+        data: {
           comment: review,
           rating
-        });
+        }
+      }));
 
-      onReviewSubmit(reviews);
+      setIsInputDisabled(false);
       setReview('');
       setRating(0);
     } catch {

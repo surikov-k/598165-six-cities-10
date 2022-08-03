@@ -1,45 +1,30 @@
-import {useParams} from 'react-router-dom';
 import Map from '../../components/map/map';
 import CardsList from '../../components/cards-list/cards-list';
 import {CardType} from '../../components/card/card';
 import Header from '../../components/header/header';
-import {useEffect, useState} from 'react';
-import {Offer} from '../../types/offer';
-import {useAppDispatch} from '../../hooks';
-import {redirectToRoute} from '../../store/action';
-import {APIRoute, AppRoute} from '../../const';
-import {api} from '../../store';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import Reviews from '../../components/reviews/reviews';
+import {useParams} from 'react-router-dom';
+import {useEffect} from 'react';
+import {fetchOfferAction, fetchOffersNearBy} from '../../store/api-actions';
+import {Offer} from '../../types/offer';
 
 const PROPERTY_MAP_CLASSES = 'property__map map';
 
 function Property(): JSX.Element | null {
+
   const {id} = useParams();
+
+  const offerId: Offer['id'] = parseInt(id as string, 10);
+
   const dispatch = useAppDispatch();
-
-
-  const [offer, setOffer] = useState<Offer | null>(null);
-  const [nearbyOffers, setNearbyOffers] = useState<Offer[] | []>([]);
-
+  const offer = useAppSelector((state) => state.offer);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
 
   useEffect(() => {
-
-    const getOfferData = async () => {
-
-      const {data: currentOffer} = await api
-        .get<Offer>(`${APIRoute.Offers}/${id}`);
-      setOffer(currentOffer);
-
-      const {data: currentOfferNearby} = await api
-        .get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
-      setNearbyOffers(currentOfferNearby);
-    };
-
-    getOfferData().catch(() => {
-      dispatch(redirectToRoute(AppRoute.NotFound));
-    });
-
-  }, [id, dispatch]);
+    dispatch(fetchOfferAction(offerId));
+    dispatch(fetchOffersNearBy(offerId));
+  }, [dispatch, id,]);
 
   if (!offer) {
     return null;

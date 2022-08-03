@@ -1,11 +1,10 @@
-import {useEffect, useState} from 'react';
-import {api} from '../../store';
+import {useEffect} from 'react';
 import {Offer} from '../../types/offer';
-import {APIRoute, AuthorizationStatus} from '../../const';
-import {Review} from '../../types/review';
+import {AuthorizationStatus} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import ReviewsList from '../reviews-list/reviews-list';
 import ReviewForm from '../review-form/review-form';
+import {fetchReviewsAction} from '../../store/api-actions';
 
 type ReviewsProps = {
   offerId: Offer['id']
@@ -17,17 +16,11 @@ const Reviews = ({offerId}: ReviewsProps) => {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
-  const [reviews, setReviews] = useState<Review[] | []>([]);
+  const reviews = useAppSelector((state) => state.reviews);
 
   useEffect(() => {
-    const getReviews = async () => {
 
-      const {data: currentOfferReviews} = await api
-        .get<Review[]>(`${APIRoute.Reviews}/${offerId}`);
-      setReviews(currentOfferReviews);
-    };
-
-    getReviews();
+    dispatch(fetchReviewsAction(offerId));
 
   }, [offerId, dispatch]);
 
@@ -50,9 +43,6 @@ const Reviews = ({offerId}: ReviewsProps) => {
         authorizationStatus === AuthorizationStatus.Auth &&
           <ReviewForm
             offerId={offerId}
-            onReviewSubmit={(updatedReviews: Review[]) => {
-              setReviews(updatedReviews);
-            }}
           />
       }
     </section>
