@@ -15,4 +15,3 @@ export const dropToken = (): void => {
   localStorage.removeItem(AUTH_TOKEN);
 };
 
-

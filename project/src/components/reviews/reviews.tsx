@@ -5,18 +5,18 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import ReviewsList from '../reviews-list/reviews-list';
 import ReviewForm from '../review-form/review-form';
 import {fetchReviewsAction} from '../../store/api-actions';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {getReviews} from '../../store/app-data/selectors';
 
 type ReviewsProps = {
   offerId: Offer['id']
 }
 
-
 const Reviews = ({offerId}: ReviewsProps) => {
 
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-
-  const reviews = useAppSelector((state) => state.reviews);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const reviews = useAppSelector(getReviews);
 
   useEffect(() => {
 
@@ -46,7 +46,6 @@ const Reviews = ({offerId}: ReviewsProps) => {
           />
       }
     </section>
-
   );
 };
 

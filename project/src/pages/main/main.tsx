@@ -1,16 +1,18 @@
-
-import CitiesList from '../../components/locations-list/cities-list';
+import CitiesList from '../../components/cities-list/cities-list';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeCity} from '../../store/action';
 import Header from '../../components/header/header';
 import Cities from '../../components/cities/cities';
+import {getCurrentCity} from '../../store/app-process/selectors';
+import {changeCity} from '../../store/app-process/app-process';
+import {getOffers} from '../../store/app-data/selectors';
 
-function Main() {
+function Main():JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const currentCity = useAppSelector((state) => state.currentCity);
-  const offers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector(getCurrentCity);
+  const offers = useAppSelector(getOffers);
+
 
   const offersByCity = offers
     .filter((offer) => offer.city.name === currentCity);

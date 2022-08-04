@@ -6,8 +6,9 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import Reviews from '../../components/reviews/reviews';
 import {useParams} from 'react-router-dom';
 import {useEffect} from 'react';
-import {fetchOfferAction, fetchOffersNearBy} from '../../store/api-actions';
+import {fetchNearbyOffers, fetchOfferAction} from '../../store/api-actions';
 import {Offer} from '../../types/offer';
+import {getNearbyOffers, getOffer} from '../../store/app-data/selectors';
 
 const PROPERTY_MAP_CLASSES = 'property__map map';
 
@@ -18,13 +19,13 @@ function Property(): JSX.Element | null {
   const offerId: Offer['id'] = parseInt(id as string, 10);
 
   const dispatch = useAppDispatch();
-  const offer = useAppSelector((state) => state.offer);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const offer = useAppSelector(getOffer);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
 
   useEffect(() => {
     dispatch(fetchOfferAction(offerId));
-    dispatch(fetchOffersNearBy(offerId));
-  }, [dispatch, id,]);
+    dispatch(fetchNearbyOffers(offerId));
+  }, [dispatch, id, offerId]);
 
   if (!offer) {
     return null;

@@ -5,10 +5,11 @@ import {AuthData} from '../../types/auth-data';
 import {Link, useNavigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus, CITIES} from '../../const';
 import Logo from '../../components/logo/logo';
-import {changeCity} from '../../store/action';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {changeCity} from '../../store/app-process/app-process';
 
 function Login(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -49,7 +50,6 @@ function Login(): JSX.Element {
       passwordRef.current.setCustomValidity('');
     }
   };
-
 
   return (
     <div className="page page--gray page--login">

@@ -6,7 +6,8 @@ import Map from '../map/map';
 import EmptyOffers from '../empty-offers/empty-offers';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {useCallback, useMemo, useState} from 'react';
-import {changeSorting} from '../../store/action';
+import {getCurrentCity, getSortingType} from '../../store/app-process/selectors';
+import {changeSorting} from '../../store/app-process/app-process';
 
 const CITES_MAP_CLASSES = 'cities__map map';
 
@@ -17,8 +18,8 @@ type CitiesProps = {
 function Cities({offers}: CitiesProps): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const sortingType = useAppSelector((state) => state.sortingType);
-  const currentCity = useAppSelector((state) => state.currentCity);
+  const sortingType = useAppSelector(getSortingType);
+  const currentCity = useAppSelector(getCurrentCity);
 
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
 

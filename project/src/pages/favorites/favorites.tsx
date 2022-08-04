@@ -3,9 +3,10 @@ import {CardType} from '../../components/card/card';
 import {useAppSelector} from '../../hooks';
 import Header from '../../components/header/header';
 import Logo from '../../components/logo/logo';
+import {getOffers} from '../../store/app-data/selectors';
 
 function Favorites(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers)
+  const offers = useAppSelector(getOffers)
     .slice(0, 10);
   return (
     <div className="page">

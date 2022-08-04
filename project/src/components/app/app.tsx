@@ -1,6 +1,6 @@
 import {Route, Routes} from 'react-router-dom';
 
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 import Favorites from '../../pages/favorites/favorites';
 import Login from '../../pages/login/login';
 import Main from '../../pages/main/main';
@@ -11,11 +11,14 @@ import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
+import {getIsDataLoading} from '../../store/app-data/selectors';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 function App(): JSX.Element {
-  const isDataLoading = useAppSelector((state) => state.isDataLoading);
+  const isDataLoading = useAppSelector(getIsDataLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  if (isDataLoading) {
+  if (authorizationStatus === AuthorizationStatus.Unknown || isDataLoading) {
     return (
       <LoadingScreen />
     );
@@ -24,6 +27,7 @@ function App(): JSX.Element {
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
+
         <Route
           path={AppRoute.Root}
           element={<Main/>}
