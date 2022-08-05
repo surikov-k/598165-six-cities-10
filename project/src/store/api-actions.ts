@@ -9,6 +9,7 @@ import {UserData} from '../types/user-data';
 import {AuthData} from '../types/auth-data';
 import {Review} from '../types/review';
 import {saveUserEmail} from './app-process/app-process';
+import {FavoriteOfferData} from '../types/favorite-offer-data';
 
 export const clearErrorAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -17,10 +18,12 @@ export const clearErrorAction = createAsyncThunk<void, undefined, {
 }>(
   'data/clearError',
   async (_arg, {dispatch}) => {
-    await setTimeout(
-      () => null,
-      CLEAR_ERROR_DELAY,
-    );
+    await new Promise((resolve, _) => {
+      setTimeout(
+        resolve,
+        CLEAR_ERROR_DELAY,
+      );
+    });
   }
 );
 
@@ -98,9 +101,14 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   state: State,
   extra: AxiosInstance
 }>('user/checkAuth',
-  async (_arg, {dispatch, extra: api}) => {
-    const {data: {email: userEmail}} = await api.get(APIRoute.Login);
-    dispatch(saveUserEmail(userEmail));
+  async (_arg, {dispatch, extra: api}, ) => {
+    try {
+      const {data: {email: userEmail}} = await api.get(APIRoute.Login);
+      dispatch(saveUserEmail(userEmail));
+    } catch (error) {
+      dispatch(clearErrorAction());
+      throw (error);
+    }
   });
 
 export const loginAction = createAsyncThunk<void, AuthData, {
@@ -127,4 +135,27 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   },
 );
 
+export const fetchFavoriteOffersAction = createAsyncThunk<Offer[], undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchFavorites',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data} = await api.get(APIRoute.Favorite);
+    return data;
+  }
+);
+
+export const toggleFavoriteOfferAction = createAsyncThunk<Offer, FavoriteOfferData, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance,
+}>(
+  'data/toggleFavoriteOffer',
+  async ({id, status}, {dispatch, extra: api}) => {
+    const {data} = await api.post(`${APIRoute.Favorite}/${id}/${status}`);
+    return data;
+  }
+);
 

@@ -1,6 +1,9 @@
 import {Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
-import {memo} from 'react';
+// import {memo} from 'react';
+import {useAppDispatch} from '../../hooks';
+import {toggleFavoriteOfferAction} from '../../store/api-actions';
+import {Favorite} from '../../types/favorite-offer-data';
 
 export enum CardType {
   Cities = 'cities',
@@ -27,6 +30,8 @@ function Card({cardType, offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Ele
     type
   } = offer;
 
+  const dispatch = useAppDispatch();
+
   return (
     <article
       className={`${cardType}__card place-card`}
@@ -44,8 +49,8 @@ function Card({cardType, offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Ele
           <img
             className="place-card__image"
             src={previewImage}
-            width="260"
-            height="200"
+            width={`${cardType === 'favorites' ? 150 : 260}`}
+            height={`${cardType === 'favorites' ? 110 : 200}`}
             alt={`${offer.title}`}
           />
         </Link>
@@ -60,6 +65,10 @@ function Card({cardType, offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Ele
           <button
             className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
             type="button"
+            onClick={() => dispatch(toggleFavoriteOfferAction({
+              id,
+              status: isFavorite ? Favorite.Remove : Favorite.Add
+            }))}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
@@ -82,4 +91,5 @@ function Card({cardType, offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Ele
   );
 }
 
-export default memo(Card);
+// export default memo(Card);
+export default Card;

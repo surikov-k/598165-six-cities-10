@@ -13,5 +13,8 @@ export const redirect: Middleware<unknown, Reducer> =
     if (action.type === 'data/fetchOffer/rejected') {
       browserHistory.push(AppRoute.NotFound);
     }
+    if (action.type === 'data/toggleFavoriteOffer/rejected') {
+      browserHistory.push(AppRoute.Login);
+    }
     return next(action);
   };

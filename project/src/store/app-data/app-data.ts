@@ -2,11 +2,14 @@ import {AppData} from '../../types/state';
 import {Namespace} from '../../const';
 import {createSlice} from '@reduxjs/toolkit';
 import {
+  clearErrorAction,
+  fetchFavoriteOffersAction,
+  fetchNearbyOffers,
   fetchOfferAction,
   fetchOffersAction,
-  fetchNearbyOffers,
   fetchReviewsAction,
-  clearErrorAction, postReviewAction
+  postReviewAction,
+  toggleFavoriteOfferAction
 } from '../api-actions';
 
 
@@ -14,6 +17,7 @@ const initialState: AppData = {
   offer: null,
   offers: [],
   nearbyOffers: [],
+  favoriteOffers: [],
   reviews: [],
   isDataLoading: false,
   error: '',
@@ -27,7 +31,7 @@ export const appData = createSlice({
       state.error = action.payload;
     }
   },
-  extraReducers(builder) {
+  extraReducers: function (builder) {
     builder
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
         state.offer = action.payload;
@@ -41,6 +45,33 @@ export const appData = createSlice({
       })
       .addCase(fetchNearbyOffers.fulfilled, (state, action) => {
         state.nearbyOffers = action.payload;
+      })
+      .addCase(fetchFavoriteOffersAction.fulfilled, (state, action) => {
+        state.favoriteOffers = action.payload;
+      })
+      .addCase(toggleFavoriteOfferAction.fulfilled, (state, action) => {
+        const toggledOffer = state.offers
+          .find((offer) => offer.id === action.payload.id);
+        if (toggledOffer) {
+          toggledOffer.isFavorite = action.payload.isFavorite;
+        }
+
+        if (action.payload.isFavorite) {
+          state.favoriteOffers.push(action.payload);
+        } else {
+          state.favoriteOffers = state.favoriteOffers
+            .filter((offer) => offer.id !== action.payload.id);
+        }
+
+        state.nearbyOffers.forEach((offer) => {
+          if (toggledOffer && offer.id === toggledOffer.id) {
+            offer.isFavorite = action.payload.isFavorite;
+          }
+        });
+
+        if (state.offer && state.offer.id === action.payload.id) {
+          state.offer.isFavorite = action.payload.isFavorite;
+        }
       })
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;

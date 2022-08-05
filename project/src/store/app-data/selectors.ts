@@ -14,3 +14,5 @@ export const getReviews = (state: State): Review[] => state[Namespace.Data].revi
 export const getIsDataLoading = (state: State): boolean => state[Namespace.Data].isDataLoading;
 
 export const getError = (state: State): string => state[Namespace.Data].error;
+
+export const getFavoriteOffers = (state: State): Offer[] => state[Namespace.Data].favoriteOffers;

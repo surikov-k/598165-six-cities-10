@@ -6,9 +6,10 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import Reviews from '../../components/reviews/reviews';
 import {useParams} from 'react-router-dom';
 import {useEffect} from 'react';
-import {fetchNearbyOffers, fetchOfferAction} from '../../store/api-actions';
+import {fetchNearbyOffers, fetchOfferAction, toggleFavoriteOfferAction} from '../../store/api-actions';
 import {Offer} from '../../types/offer';
 import {getNearbyOffers, getOffer} from '../../store/app-data/selectors';
+import {Favorite} from '../../types/favorite-offer-data';
 
 const PROPERTY_MAP_CLASSES = 'property__map map';
 
@@ -87,6 +88,10 @@ function Property(): JSX.Element | null {
                 <button
                   className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`}
                   type="button"
+                  onClick={() => dispatch(toggleFavoriteOfferAction({
+                    id: offerId,
+                    status: isFavorite ? Favorite.Remove : Favorite.Add
+                  }))}
                 >
                   <svg className="property__bookmark-icon place-card__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>

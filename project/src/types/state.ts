@@ -13,6 +13,7 @@ export type AppData = {
   offer: Offer | null,
   offers: Offer[],
   nearbyOffers: Offer[],
+  favoriteOffers: Offer[],
   reviews: Review[],
   isDataLoading: boolean,
   error: string,
