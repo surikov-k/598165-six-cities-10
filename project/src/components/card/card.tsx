@@ -1,6 +1,5 @@
 import {Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
-// import {memo} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {toggleFavoriteOfferAction} from '../../store/api-actions';
 import {Favorite} from '../../types/favorite-offer-data';
@@ -37,6 +36,7 @@ function Card({cardType, offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Ele
       className={`${cardType}__card place-card`}
       onMouseEnter={() => onMouseEnter && onMouseEnter(offer)}
       onMouseLeave={() => onMouseLeave && onMouseLeave()}
+      data-testid="card"
     >
       {
         isPremium &&
@@ -78,7 +78,7 @@ function Card({cardType, offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Ele
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${rating * 20}%`}}></span>
+            <span data-testid="rating" style={{width: `${rating * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -91,5 +91,4 @@ function Card({cardType, offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Ele
   );
 }
 
-// export default memo(Card);
 export default Card;

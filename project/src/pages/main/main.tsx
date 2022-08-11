@@ -18,7 +18,7 @@ function Main():JSX.Element {
     .filter((offer) => offer.city.name === currentCity);
 
   return (
-    <div className="page page--gray page--main">
+    <div className="page page--gray page--main" data-testid='main'>
       <Header/>
 
       <main className={`page__main page__main--index ${!offers.length ? 'page__main--index-empty' : ''}`}>

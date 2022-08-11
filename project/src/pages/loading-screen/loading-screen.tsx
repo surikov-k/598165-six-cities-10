@@ -12,7 +12,7 @@ const LoadingScreen = (): JSX.Element => (
             <img
               style={{display: 'block', margin: '0 auto', textAlign: 'center'}}
               className="header__logo" src="img/spinner.svg"
-              alt="6 cities logo" width="81" height="41"
+              alt="spinner" width="81" height="41"
             />
             <div className="property__name-wrapper">
               <h1 className="property__name">

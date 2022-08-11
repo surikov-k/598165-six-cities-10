@@ -21,6 +21,7 @@ const SortingSelect = ({currentType, changeSorting}: SortingSelectProps) => {
       className="places__sorting"
       onMouseEnter={() => setIsOpened(true)}
       onMouseLeave={() => setIsOpened(false)}
+      data-testid="sorting-select"
     >
       <span className="places__sorting-caption">Sort by&nbsp;</span>
       <span className="places__sorting-type" tabIndex={0}>

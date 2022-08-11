@@ -6,6 +6,8 @@ import App from './components/app/app';
 import {store} from './store';
 import {checkAuthAction, fetchFavoriteOffersAction, fetchOffersAction} from './store/api-actions';
 import ErrorMessage from './components/error-message/error-message';
+import browserHistory from './browser-history';
+import HistoryRouter from './components/history-router/history-router';
 
 store.dispatch(fetchOffersAction());
 store.dispatch(checkAuthAction());
@@ -19,8 +21,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ErrorMessage />
-      <App />
+      <HistoryRouter history={browserHistory}>
+        <ErrorMessage/>
+        <App/>
+      </HistoryRouter>
     </Provider>
   </React.StrictMode>
 );

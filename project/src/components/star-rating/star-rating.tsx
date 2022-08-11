@@ -15,7 +15,7 @@ const StarRating = ({currentRating, onChange, disabled}: StarRatingProps): JSX.E
     'terribly',
   ];
   return (
-    <div className="reviews__rating-form form__rating">
+    <div className="reviews__rating-form form__rating" data-testid="star-rating">
       {
         labelTitles.map((title, i) => {
           const stars = labelTitles.length - i;

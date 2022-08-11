@@ -2,7 +2,7 @@ import {Link} from 'react-router-dom';
 
 function NotFound(): JSX.Element {
   return (
-    <div className="page">
+    <div className="page" data-testid="not-found">
       <main
         className="page__main"
         style={{height: '100vh'}}

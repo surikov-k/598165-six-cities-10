@@ -44,7 +44,7 @@ function Cities({offers}: CitiesProps): JSX.Element {
   );
 
   return (
-    <div className="cities">
+    <div className="cities" data-testid="cities">
       {
         offers.length > 0
           ?

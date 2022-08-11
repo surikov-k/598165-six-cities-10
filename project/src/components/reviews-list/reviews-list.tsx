@@ -7,7 +7,7 @@ type ReviewListProps = {
 }
 
 const ReviewsList = ({reviews}: ReviewListProps) => (
-  <ul className="reviews__list">
+  <ul className="reviews__list" data-testid="reviews-list">
     {
       reviews.map((review) => <ReviewItem key={review.id} review={review}/>)
     }

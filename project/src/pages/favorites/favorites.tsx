@@ -20,7 +20,10 @@ function Favorites(): JSX.Element {
   const getCities = (offers: Offer[]): string[] => [...new Set(offers.reduce((acc, offer) => acc.concat([offer.city.name]), [] as string[]))];
 
   return (
-    <div className={`page  ${favoritesOffers.length === 0 ? EMPTY_FAVORITES_PAGE_CLASS : ''}`}>
+    <div
+      className={`page  ${favoritesOffers.length === 0 ? EMPTY_FAVORITES_PAGE_CLASS : ''}`}
+      data-testid={'favorites'}
+    >
       <Header/>
       <main
         className={`page__main page__main--favorites ${favoritesOffers.length === 0 ? EMPTY_FAVORITES_MAIN_CLASS : ''}`}

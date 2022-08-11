@@ -6,8 +6,8 @@ type LocationsListProps = {
 }
 
 const CitiesList = ({currentCity, changeCity}: LocationsListProps) => (
-  <section className="locations container">
-    <ul className="locations__list tabs__list">
+  <section className="locations container" data-testid="cities-list">
+    <ul className="locations__list tabs__list" >
       {
         CITIES.map((cityName) => (
           <li
@@ -20,6 +20,7 @@ const CitiesList = ({currentCity, changeCity}: LocationsListProps) => (
             }}
           >
             <span
+              data-testid={`tab-${cityName}`}
               className={`locations__item-link tabs__item ${
                 cityName === currentCity
                   ? 'tabs__item--active'

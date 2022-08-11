@@ -48,7 +48,7 @@ function Property(): JSX.Element | null {
   } = offer;
 
   return (
-    <div className="page">
+    <div className="page" data-testid="offer">
       <Header/>
 
       <main className="page__main page__main--property">
@@ -77,7 +77,7 @@ function Property(): JSX.Element | null {
             <div className="property__wrapper">
               {
                 isPremium &&
-                  <div className="property__mark">
+                  <div className="property__mark" data-testid="premium-label">
                     <span>Premium</span>
                   </div>
               }
@@ -101,34 +101,35 @@ function Property(): JSX.Element | null {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${rating * 20}%`}}></span>
+                  <span style={{width: `${rating * 20}%`}} data-testid="rating-big"></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
-                <li className="property__feature property__feature--entire">
+                <li className="property__feature property__feature--entire" data-testid="feature-entire">
                   {type}
                 </li>
-                <li className="property__feature property__feature--bedrooms">
+                <li className="property__feature property__feature--bedrooms" data-testid="feature-bedrooms">
                   {bedrooms} Bedrooms
                 </li>
-                <li className="property__feature property__feature--adults">
+                <li className="property__feature property__feature--adults" data-testid="feature-max">
                   Max {maxAdults} adults
                 </li>
               </ul>
-              <div className="property__price">
+              <div className="property__price" data-testid="price">
                 <b className="property__price-value">&euro;{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
-                <ul className="property__inside-list">
+                <ul className="property__inside-list" data-testid="property-list">
                   {
                     goods.map((item) => (
                       <li
                         key={item}
                         className="property__inside-item"
+                        data-testid="property-item"
                       >
                         {item}
                       </li>
@@ -152,7 +153,7 @@ function Property(): JSX.Element | null {
                   </span>
                   {
                     host.isPro &&
-                      <span className="property__user-status">
+                      <span className="property__user-status" data-testid="host-is-pro">
                       Pro
                       </span>
                   }

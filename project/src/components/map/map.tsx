@@ -63,6 +63,7 @@ function Map({center, offers, activeOffer, mapClasses}: MapProps): JSX.Element {
     <section
       ref={mapRef}
       className={mapClasses}
+      data-testid="map"
     >
     </section>
   );
