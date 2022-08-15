@@ -47,6 +47,7 @@ const SortingSelect = ({currentType, changeSorting}: SortingSelectProps) => {
                   changeSorting(type);
                   setIsOpened(false);
                 }}
+                data-testid={'sort-item'}
               >
                 {type}
               </li>

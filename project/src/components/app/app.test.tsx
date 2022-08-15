@@ -13,7 +13,7 @@ const history = createMemoryHistory();
 const mockStore = configureMockStore([thunk]);
 
 
-const initialState: State = makeFakeState();
+const initialState = makeFakeState();
 
 const createFakeApp = (state: State) => {
   const store = mockStore(state);

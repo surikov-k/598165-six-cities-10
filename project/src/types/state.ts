@@ -21,9 +21,10 @@ export type AppData = {
 
 export type AppProcess = {
   currentCity: string,
-  sortingType: SortingType.Popular,
+  sortingType: SortingType,
   userEmail: string,
 }
 
 export type State = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+

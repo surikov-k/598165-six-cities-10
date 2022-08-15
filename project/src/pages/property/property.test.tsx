@@ -29,7 +29,7 @@ describe('Page: Property', () => {
     const offer = state[Namespace.Data].offer as Offer;
 
     const images = offer.images;
-    const title = offer?.title;
+    const title = offer.title;
 
     images
       .slice(0, 6)
@@ -68,7 +68,11 @@ describe('Page: Property', () => {
 
     const mockStore = configureMockStore([thunk]);
     const state = makeFakeState();
-    state[Namespace.Data].offer.host.isPro = true;
+
+    const {offer} = state[Namespace.Data];
+    if (offer) {
+      offer.host.isPro = true;
+    }
 
     const store = mockStore(state);
 
@@ -86,7 +90,11 @@ describe('Page: Property', () => {
 
     const mockStore = configureMockStore([thunk]);
     const state = makeFakeState();
-    state[Namespace.Data].offer.host.isPro = false;
+    const {offer} = state[Namespace.Data];
+    if (offer) {
+      offer.host.isPro = false;
+    }
+
     const store = mockStore(state);
 
     render(
@@ -104,7 +112,10 @@ describe('Page: Property', () => {
     const mockStore = configureMockStore([thunk]);
     const state = makeFakeState();
 
-    state[Namespace.Data].offer.isPremium = true;
+    const {offer} = state[Namespace.Data];
+    if (offer) {
+      offer.isPremium = true;
+    }
 
     const store = mockStore(state);
 
@@ -123,7 +134,10 @@ describe('Page: Property', () => {
     const mockStore = configureMockStore([thunk]);
     const state = makeFakeState();
 
-    state[Namespace.Data].offer.isPremium = false;
+    const {offer} = state[Namespace.Data];
+    if (offer) {
+      offer.isPremium = false;
+    }
 
     const store = mockStore(state);
     render(

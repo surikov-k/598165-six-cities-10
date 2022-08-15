@@ -1,5 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import StarRating from './star-rating';
+import userEvent from '@testing-library/user-event';
 
 describe('Component: StarRating', () => {
   it('should render correctly', () => {
@@ -28,5 +29,21 @@ describe('Component: StarRating', () => {
       .forEach((input) => {
         expect(input).toHaveAttribute('disabled', '');
       });
+  });
+
+  it('should call a change callback when the input is clicked', async () => {
+    const onChange = jest.fn();
+    render(
+      <StarRating
+        currentRating={0}
+        onChange={onChange}
+        disabled={false}
+      />
+    );
+
+    for (const input of screen.getAllByRole('radio')) {
+      await userEvent.click(input);
+      expect(onChange).toBeCalled();
+    }
   });
 });

@@ -2,7 +2,6 @@ import {render, screen} from '@testing-library/react';
 import Main from './main';
 import {createMemoryHistory} from 'history';
 import {configureMockStore} from '@jedmao/redux-mock-store';
-import {State} from '../../types/state';
 import {Provider} from 'react-redux';
 import HistoryRouter from '../../components/history-router/history-router';
 import {makeFakeState} from '../../utils/mock';
@@ -15,7 +14,7 @@ describe('Page: Main', () => {
   it('should be rendered correctly', () => {
 
     const mockStore = configureMockStore([]);
-    const state: State = makeFakeState();
+    const state = makeFakeState();
     const store = mockStore(state);
 
     render(
@@ -34,7 +33,7 @@ describe('Page: Main', () => {
   it('should render an empty-offers component when there arent any offers', () => {
 
     const mockStore = configureMockStore([]);
-    const state: State = makeFakeState();
+    const state = makeFakeState();
     state[Namespace.Data].offers = [];
     const store = mockStore(state);
 

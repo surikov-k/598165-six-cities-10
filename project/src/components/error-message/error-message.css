@@ -1,7 +1,7 @@
 .error-message {
   position: fixed;
   z-index: 10;
-  top: 22px;
+  top: -40px;
   left: 200px;
   padding: 9px 21px 8px 11px;
   font-style: oblique;
@@ -10,8 +10,29 @@
   background-color: #fe9000;
   color: #ffffff;
   border-radius: 5px;
+  animation: slide 0.5s ease-in;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
 }
 .error-message span {
   display: block;
   transform: skew(15deg);
+}
+
+@keyframes slide {
+  70% {
+    top: 42px;
+  }
+
+  80% {
+    top: 12px;
+  }
+
+  90% {
+    top: 32px;
+  }
+
+  100% {
+    top: 22px;
+  }
 }

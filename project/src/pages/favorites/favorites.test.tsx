@@ -4,7 +4,6 @@ import {Namespace} from '../../const';
 import {Provider} from 'react-redux';
 import {MemoryRouter} from 'react-router-dom';
 import Favorites from './favorites';
-import {State} from '../../types/state';
 import {makeFakeState} from '../../utils/mock';
 
 describe('Page: Favorites', () => {
@@ -12,7 +11,7 @@ describe('Page: Favorites', () => {
   const mockStore = configureMockStore();
 
   it('should be rendered correctly', () => {
-    const state: State = makeFakeState();
+    const state = makeFakeState();
 
     const store = mockStore(state);
 
@@ -41,7 +40,7 @@ describe('Page: Favorites', () => {
   });
 
   it('should render the empty favorites component when there are not any favorites', () => {
-    const state: State = makeFakeState();
+    const state = makeFakeState();
     state[Namespace.Data].favoriteOffers = [];
 
     const store = mockStore(state);

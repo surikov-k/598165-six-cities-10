@@ -1,5 +1,5 @@
 import {MutableRefObject, useEffect, useRef, useState} from 'react';
-import {LatLng, Map, TileLayer} from 'leaflet';
+import {Map, TileLayer} from 'leaflet';
 import {Location} from '../../types/offer';
 
 function useMap(
@@ -16,6 +16,7 @@ function useMap(
   } = center;
 
   useEffect(() => {
+
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = new Map(mapRef.current, {
         center: {
@@ -38,7 +39,8 @@ function useMap(
       setMap(instance);
       isRenderedRef.current = true;
     } else {
-      map?.setView(new LatLng(latitude, longitude), zoom, {
+
+      map?.setView({lat: latitude, lng: longitude}, zoom, {
         animate: true,
         duration: 0.4
       });

@@ -31,6 +31,7 @@ const Header = () => {
                       <Link
                         className="header__nav-link header__nav-link--profile"
                         to={AppRoute.Favorites}
+                        data-testid="favorites-link"
                       >
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>

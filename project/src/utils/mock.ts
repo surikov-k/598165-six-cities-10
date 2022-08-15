@@ -3,6 +3,7 @@ import * as faker from 'faker';
 import {Review} from '../types/review';
 import {AuthorizationStatus, DEFAULT_CITY, Namespace} from '../const';
 import {SortingType} from '../components/sorting-select/sorting-select';
+import {State} from '../types/state';
 
 const getRandomInt = (min: number, max: number): number => Math
   .floor(Math.random() * (max - min) + min);
@@ -56,14 +57,14 @@ export const makeFakeReview = (): Review => ({
   date: faker.date.soon().toISOString(),
 });
 
-export const makeFakeState = () => ({
-  [Namespace.App]: {
+export const makeFakeState = (): State => ({
+  [Namespace.App as const]: {
     currentCity: DEFAULT_CITY,
     sortingType: SortingType.Popular,
     userEmail: faker.internet.email(),
   },
-  [Namespace.Data]: {
-    offer: makeFakeOffer() as Offer,
+  [Namespace.Data as const]: {
+    offer: makeFakeOffer(),
     offers: Array.from({length: 10}, () => makeFakeOffer()),
     nearbyOffers: Array.from({length: 3}, () => makeFakeOffer()),
     favoriteOffers: Array.from({length: 5}, () => makeFakeOffer()),
@@ -71,7 +72,7 @@ export const makeFakeState = () => ({
     isDataLoading: false,
     error: '',
   },
-  [Namespace.User]: {
+  [Namespace.User as const]: {
     authorizationStatus: AuthorizationStatus.Auth,
   }
 });

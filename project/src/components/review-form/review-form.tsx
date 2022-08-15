@@ -4,8 +4,8 @@ import {Offer} from '../../types/offer';
 import {postReviewAction} from '../../store/api-actions';
 import {useAppDispatch} from '../../hooks';
 
-const MIN_REVIEW_LENGTH = 20;
-const MAX_REVIEW_LENGTH = 300;
+export const MIN_REVIEW_LENGTH = 20;
+export const MAX_REVIEW_LENGTH = 300;
 
 type ReviewFormProps = {
   offerId: Offer['id']

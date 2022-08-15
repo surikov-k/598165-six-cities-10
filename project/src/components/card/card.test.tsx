@@ -6,8 +6,14 @@ import {Provider} from 'react-redux';
 import {createMemoryHistory} from 'history';
 import HistoryRouter from '../history-router/history-router';
 import {makeFakeOffer} from '../../utils/mock';
+import userEvent from '@testing-library/user-event';
+import thunk, {ThunkDispatch} from 'redux-thunk';
+import {toggleFavoriteOfferAction} from '../../store/api-actions';
+import {api} from '../../store';
+import {State} from '../../types/state';
+import {Action} from 'redux';
 
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 const history = createMemoryHistory();
 
 const offer: Offer = makeFakeOffer();
@@ -98,6 +104,74 @@ describe('Component: Card', () => {
     );
     expect(screen.getByRole('button'))
       .not.toHaveClass('place-card__bookmark-button--active');
+  });
+
+  it('should dispatch toggleFavoriteOfferAction when button is clicked', async () => {
+
+    const middlewares = [thunk.withExtraArgument(api)];
+
+    const mockStoreWithThunk = configureMockStore<State,
+      Action,
+      ThunkDispatch<State, typeof api, Action>>(middlewares);
+
+    const store = mockStoreWithThunk({});
+
+    render(
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <Card
+            cardType={type}
+            offer={{
+              ...offer,
+              isFavorite: false
+            }}
+          />
+        </HistoryRouter>
+      </Provider>
+    );
+    await userEvent.click(screen.getByRole('button'));
+
+    const actions = store.getActions().map(({type: t}) => t);
+    expect(actions).toEqual([
+      toggleFavoriteOfferAction.pending.type,
+    ]);
+  });
+
+  it('should call a callback on mouse entering', async () => {
+    const onMouseEnter = jest.fn();
+    render(
+      <Provider store={mockStore({})}>
+        <HistoryRouter history={history}>
+          <Card
+            cardType={type}
+            offer={offer}
+            onMouseEnter={onMouseEnter}
+          />
+        </HistoryRouter>
+      </Provider>
+    );
+
+    await userEvent.hover(screen.getByTestId('card'));
+    expect(onMouseEnter).toHaveBeenCalled();
+    expect(onMouseEnter).toHaveBeenCalledWith(offer);
+  });
+
+  it('should call a callback on mouse leaving', async () => {
+    const onMouseLeave = jest.fn();
+    render(
+      <Provider store={mockStore({})}>
+        <HistoryRouter history={history}>
+          <Card
+            cardType={type}
+            offer={offer}
+            onMouseLeave={onMouseLeave}
+          />
+        </HistoryRouter>
+      </Provider>
+    );
+
+    await userEvent.unhover(screen.getByTestId('card'));
+    expect(onMouseLeave).toHaveBeenCalled();
   });
 
 });

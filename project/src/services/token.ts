@@ -1,4 +1,4 @@
-const AUTH_TOKEN = 'T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=';
+export const AUTH_TOKEN = 'T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=';
 
 export type Token = string;
 
