@@ -8,6 +8,7 @@ import {checkAuthAction, fetchFavoriteOffersAction, fetchOffersAction} from './s
 import ErrorMessage from './components/error-message/error-message';
 import browserHistory from './browser-history';
 import HistoryRouter from './components/history-router/history-router';
+import ScrollToTop from './components/scroll-to-top/scroll-to-top';
 
 store.dispatch(fetchOffersAction());
 store.dispatch(checkAuthAction());
@@ -22,6 +23,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <HistoryRouter history={browserHistory}>
+        <ScrollToTop/>
         <ErrorMessage/>
         <App/>
       </HistoryRouter>
