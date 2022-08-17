@@ -31,7 +31,8 @@ describe('Component: Card', () => {
 
     expect(screen.getByAltText(`${offer.title}`)).toBeInTheDocument();
     expect(screen.getByText(`€${offer.price}`)).toBeInTheDocument();
-    expect(screen.getByTestId('rating')).toHaveStyle(`width: ${offer.rating * 20}%`);
+    expect(screen.getByTestId('rating'))
+      .toHaveStyle(`width: ${(Math.round(offer.rating)) * 20}%`);
     expect(screen.getByText(`${offer.title}`)).toBeInTheDocument();
     expect(screen.getByText(/apartment/i)).toBeInTheDocument();
   });

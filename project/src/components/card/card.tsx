@@ -78,7 +78,7 @@ function Card({cardType, offer, onMouseEnter, onMouseLeave}: CardProps): JSX.Ele
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span data-testid="rating" style={{width: `${rating * 20}%`}}></span>
+            <span data-testid="rating" style={{width: `${Math.round(rating) * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
