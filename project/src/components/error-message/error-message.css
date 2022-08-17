@@ -2,11 +2,11 @@
   position: fixed;
   z-index: 10;
   top: -40px;
-  left: 200px;
+  left: 50%;
   padding: 9px 21px 8px 11px;
   font-style: oblique;
   font-weight: 600;
-  transform: skew(-15deg);
+  transform: translateX(-50%) skew(-15deg);
   background-color: #fe9000;
   color: #ffffff;
   border-radius: 5px;
