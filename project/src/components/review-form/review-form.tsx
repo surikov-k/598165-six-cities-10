@@ -1,4 +1,4 @@
-import {FormEvent, useState} from 'react';
+import {FormEvent, useEffect, useState} from 'react';
 import StarRating from '../star-rating/star-rating';
 import {Offer} from '../../types/offer';
 import {postReviewAction} from '../../store/api-actions';
@@ -19,28 +19,29 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const isFormValid = () => {
-    if (review.length < MIN_REVIEW_LENGTH) {
-      return false;
-    }
+  useEffect(() => {
+    const isFormValid = () => {
+      if (review.length < MIN_REVIEW_LENGTH) {
+        return false;
+      }
 
-    if (review.length > MAX_REVIEW_LENGTH) {
-      return false;
-    }
+      if (review.length > MAX_REVIEW_LENGTH) {
+        return false;
+      }
 
-    return Boolean(rating);
-  };
+      return Boolean(rating);
+    };
+    setIsSubmitButtonDisabled(!isFormValid());
+  }, [rating, review.length]);
 
   const handleTextAreaChange = (evt: FormEvent<HTMLTextAreaElement>) => {
     const {value} = evt.currentTarget;
     setReview(value);
-    setIsSubmitButtonDisabled(!isFormValid());
   };
 
   const handleStarRatingChange = (evt: FormEvent<HTMLInputElement>) => {
     const {value} = evt.currentTarget;
     setRating(parseInt(value, 10));
-    setIsSubmitButtonDisabled(!isFormValid());
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
