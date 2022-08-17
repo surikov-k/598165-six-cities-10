@@ -1,11 +1,11 @@
 import {Offer} from '../../types/offer';
-import SortingSelect, {SortingType, sortOffers} from '../sorting-select/sorting-select';
+import SortingSelect, {SortingType} from '../sorting-select/sorting-select';
 import CardsList from '../cards-list/cards-list';
 import {CardType} from '../card/card';
 import Map from '../map/map';
 import EmptyOffers from '../empty-offers/empty-offers';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {getCurrentCity, getSortingType} from '../../store/app-process/selectors';
 import {changeSorting} from '../../store/app-process/app-process';
 
@@ -22,11 +22,6 @@ function Cities({offers}: CitiesProps): JSX.Element {
   const currentCity = useAppSelector(getCurrentCity);
 
   const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
-
-  const sortedOffers = useMemo(
-    () => sortOffers(offers, sortingType),
-    [offers, sortingType]
-  );
 
   const handelMouseEnter = useCallback(
     (offer: Offer) => setActiveOffer(offer),
@@ -59,7 +54,7 @@ function Cities({offers}: CitiesProps): JSX.Element {
               <div className="cities__places-list places__list tabs__content">
                 <CardsList
                   cardType={CardType.Cities}
-                  offers={sortedOffers}
+                  offers={offers}
                   onMouseEnter={handelMouseEnter}
                   onMouseLeave={handelMouseLeave}
                 />

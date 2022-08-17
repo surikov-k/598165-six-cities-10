@@ -1,5 +1,4 @@
 import {memo, useState} from 'react';
-import {Offer} from '../../types/offer';
 
 export enum SortingType {
   Popular = 'Popular',
@@ -56,15 +55,5 @@ const SortingSelect = ({currentType, changeSorting}: SortingSelectProps) => {
       </ul>
     </form>);
 };
-
-export const sortOffers = (offers: Offer[], type: SortingType) => ({
-  [SortingType.Popular]: offers,
-  [SortingType.PriceToHigh]: [...offers]
-    .sort((offerA, offerB) => offerA.price - offerB.price),
-  [SortingType.PriceToLow]: [...offers]
-    .sort((offerA, offerB) => offerB.price - offerA.price),
-  [SortingType.TopRated]: [...offers]
-    .sort((offerA, offerB) => offerB.rating - offerA.rating)
-}[type]);
 
 export default memo(SortingSelect);

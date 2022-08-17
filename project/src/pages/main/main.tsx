@@ -4,21 +4,18 @@ import Header from '../../components/header/header';
 import Cities from '../../components/cities/cities';
 import {getCurrentCity} from '../../store/app-process/selectors';
 import {changeCity} from '../../store/app-process/app-process';
-import {getOffers} from '../../store/app-data/selectors';
+import {getSortedOffersForCurrentCity} from '../../store/app-data/selectors';
 
-function Main():JSX.Element {
+function Main(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
   const currentCity = useAppSelector(getCurrentCity);
-  const offers = useAppSelector(getOffers);
-
-
-  const offersByCity = offers
-    .filter((offer) => offer.city.name === currentCity);
+  // const offers = useAppSelector(getOffers);
+  const offers = useAppSelector(getSortedOffersForCurrentCity);
 
   return (
-    <div className="page page--gray page--main" data-testid='main'>
+    <div className="page page--gray page--main" data-testid="main">
       <Header/>
 
       <main className={`page__main page__main--index ${!offers.length ? 'page__main--index-empty' : ''}`}>
@@ -32,7 +29,7 @@ function Main():JSX.Element {
           />
         </div>
         <Cities
-          offers={offersByCity}
+          offers={offers}
         />
       </main>
     </div>
