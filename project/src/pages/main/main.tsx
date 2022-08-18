@@ -11,7 +11,6 @@ function Main(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const currentCity = useAppSelector(getCurrentCity);
-  // const offers = useAppSelector(getOffers);
   const offers = useAppSelector(getSortedOffersForCurrentCity);
 
   return (
